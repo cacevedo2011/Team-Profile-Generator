@@ -1,0 +1,23 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "inquirer": "^7.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cacevedo2011/Team-Profile-Generator.git"
+  },
+  "author": "Cristian Acevedo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cacevedo2011/Team-Profile-Generator/issues"
+  },
+  "homepage": "https://github.com/cacevedo2011/Team-Profile-Generator#readme"
+}
