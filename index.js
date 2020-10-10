@@ -1,69 +1,182 @@
 const fs = require('fs');
 
 const generatePage = require('./src/html-template.js');
-
-// const [username, email, title, description, license, install, test, message, contribution] = answers;
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer")
+const Intern = require("./lib/Intern")
 
 const inquirer = require("inquirer");
+const teamMemebers = [];
 
 // array of questions for user
-const questions = () => {
-    return inquirer.prompt([
+
+function menu(){
+
+    const managerQuestions = () => {
+        return inquirer.prompt([
 
             {type: "input",
-                name: "name",
-                message: "What is your name?",
+                name: "project",
+                message: "What is the project's name?",
             },
 
             {type: "input",
-                name: "username",
-                message: "What is your Github username?",
+                name: "managerName",
+                message: "What is the team manager's name?",
             },
 
             {type: "input",
-                name: "email",
-                message: "What is your email address?",
+                name: "managerId",
+                message: "What is the manager's ID?",
             },
 
             {type: "input",
-                name: "title",
-                message: "What is your project's name?",
+                name: "managerEmail",
+                message: "What is the manager's email address?",
             },
 
             {type: "input",
-                name: "description",
-                message: "Please write a short description of your project",
+                name: "managerOffice",
+                message: "What is the manager's office number?",
             },
 
-            {type: "input",
-                name: "install",
-                message: "What command should be run to install dependencies?",
-            },
+    ]).then(answers => {
+        const Manager = new Manager (answers.managerName, answers.managerId, answers.managerEmail, answers.managerOffice);
+        teamMemebers.push(manager);
+        idArray.push(answers.managerId);
+        createTeam();
+        });
+    };
 
-            {type: "input",
-                name: "test",
-                message: "what command should be run to run test?",
-            },
+    const createTeam = () => {
 
-            {type: "input",
-                name: "message",
-                message: "what does the user need to know about using the repo?",
-            },
+        inquirer.prompt ([{
+            type: "list",
+            name: "memberChoice",
+            message: "Would you like to add any additional team members?",
+            choices: ["Engineer", "Inter", "No further members to add"]
+        }
+        ]).then(userchoice => {
+            switch (userchoice=memberChoice) {
+                case "Engineer":
+                    engineerQuestions();
+                    break;
+                case "Intern":
+                    internQuestion();
+                    break;
+                default:
+                    buildTeam();
+            }          
+        });
+    };
 
-            {type: "input",
-                name: "contribution",
-                message: "What does the user need to know about contributing to the repo",
-            },
 
-    ]);
-};
 
-questions().then((answers) => {
-    console.log(answers);
+}
+
+// const internQuestions = () => {
+//     return inquirer.prompt([
+
+//             {type: "input",
+//                 name: "name",
+//                 message: "What is the intern's name?",
+//             },
+
+//             {type: "input",
+//                 name: "ID",
+//                 message: "What is the intern's ID?",
+//             },
+
+//             {type: "input",
+//                 name: "email",
+//                 message: "What is the intern's email address?",
+//             },
+
+//             {type: "input",
+//             name: "number",
+//             message: "What is the manager's phone number?",
+//         },
+
+
+//     ]);
+// };
+
+// intern().then((answers) => {
+//     console.log(answers);
   
-    var template = generatePage(answers);
-    writeToFile("./dist/index.html", template);
-  });
+//     var template = generatePage(answers);
+//     writeToFile("./dist/index.html", template);
+// });
+
+// const employeeQuestions = () => {
+//     return inquirer.prompt([
+
+//             {type: "input",
+//                 name: "name",
+//                 message: "What is the team manager's name?",
+//             },
+
+//             {type: "input",
+//                 name: "ID",
+//                 message: "What is the manager's ID?",
+//             },
+
+//             {type: "input",
+//                 name: "email",
+//                 message: "What is the manager's email address?",
+//             },
+
+//             {type: "input",
+//             name: "number",
+//             message: "What is the manager's phone number?",
+//         },
+
+
+//     ]);
+// };
+
+// employee().then((answers) => {
+//     console.log(answers);
+  
+//     var template = generatePage(answers);
+//     writeToFile("./dist/index.html", template);
+// });
+
+// const engineerQuestions = () => {
+//     return inquirer.prompt([
+
+//             {type: "input",
+//                 name: "name",
+//                 message: "What is the team manager's name?",
+//             },
+
+//             {type: "input",
+//                 name: "ID",
+//                 message: "What is the manager's ID?",
+//             },
+
+//             {type: "input",
+//                 name: "email",
+//                 message: "What is the manager's email address?",
+//             },
+
+//             {type: "input",
+//             name: "number",
+//             message: "What is the manager's phone number?",
+//         },
+
+
+//     ]);
+// };
+
+// engineer().then((answers) => {
+//     console.log(answers);
+  
+//     var template = generatePage(answers);
+//     writeToFile("./dist/index.html", template);
+// });
+
+
 // function to write README file
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, data, function (err) {
@@ -72,4 +185,4 @@ function writeToFile(fileName, data) {
       }
       return console.log("Success! Look at your index.md");
     });
-  } 
+  }
