@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "jest": "^26.5.2",
+    "node": "^14.13.1"
   },
   "devDependencies": {},
   "scripts": {

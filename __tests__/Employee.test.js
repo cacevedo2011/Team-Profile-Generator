@@ -16,7 +16,7 @@ test("checking for ID", () => {
     expect(employee.email).toBe("id");
 });
 test("checking for email", () => {
-    const email = emailtest@mail.com;
+    const email = "emailtest@mail.com";
     const employee = new Employee("boo, 1, email");
     expect(employee.email).toBe("email");
 });
