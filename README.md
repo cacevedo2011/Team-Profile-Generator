@@ -22,7 +22,7 @@ The applications that I used on this challenge were:
 
 ## Video
 
-https://drive.google.com/file/d/1xQFWIlrsS1_2QVjUvBPl0YhrvrKxFy0T/view?usp=sharing
+[Team-Profile Generator](https://drive.google.com/file/d/1xQFWIlrsS1_2QVjUvBPl0YhrvrKxFy0T/view?usp=sharing)
 
 ## Screenshot
 
