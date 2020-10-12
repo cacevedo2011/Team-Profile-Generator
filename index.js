@@ -1,10 +1,13 @@
 const fs = require('fs');
-const render = require('./src/html-template');
+const render = require('./src/html-template.js');
+const path = require("path");
 
 // const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer")
 const Intern = require("./lib/Intern")
+const OUTPUT_DIR = path.resolve(__dirname, "dist")
+const outputPath = path.join(OUTPUT_DIR, "project.html");
 
 const inquirer = require("inquirer");
 const teamMembers = [];
@@ -15,11 +18,6 @@ const Menu = () => {
 
     const generateQuestions = () => {
         return inquirer.prompt([
-
-            {type: "input",
-                name: "project",
-                message: "What is the project's name?",
-            },
 
             {type: "input",
                 name: "managerName",
@@ -45,21 +43,19 @@ const Menu = () => {
         const manager = new Manager (answers.managerName, answers.managerId, answers.managerEmail, answers.managerOffice);
         teamMembers.push(manager);
         idArray.push(answers.managerId);
-        createTeam();
+        generateTeam();
         });
     };
 
-    const newLocal = "memberChoice";
-    const createTeam = () => {
-
+    const generateTeam = () =>{
         inquirer.prompt ([{
             type: "list",
-            name: newLocal,
+            name: "memberChoice",
             message: "Would you like to add any additional team members?",
             choices: ["Engineer", "Intern", "No further members to add"]
         }
-        ]).then(userChoice => {
-            switch (userChoice = newLocal) {
+        ]).then(userchoice => {
+            switch (userchoice.memberChoice) {
                 case "Engineer":
                     engineerQuestions();
                     break;
@@ -67,11 +63,10 @@ const Menu = () => {
                     internQuestions();
                     break;
                 default:
-                    console.log(buildTeam);
                     buildTeam();
             }          
         });
-    };
+    }
 
     const internQuestions = () => {
         return inquirer.prompt([
@@ -93,57 +88,59 @@ const Menu = () => {
 
             {type: "input",
             name: "internSchool",
-            message: "What is the intern's school name?",
+            message: "What is the intern's school name`?",
         },
 
 
         ]).then(answers => {
-            const intern = new Intern (answers.internName, answers.internId, answers.internEmail, answers.internSchool);
+            const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
             teamMembers.push(intern);
             idArray.push(answers.internId);
-            createTeam();
+            generateTeam();
             });
-    };
+    }
     
     const engineerQuestions = () => {
         return inquirer.prompt([
     
                 {type: "input",
-                    name: "name",
-                    message: "What is the team manager's name?",
+                    name: "engineerName",
+                    message: "What is the engineer's name?",
                 },
     
                 {type: "input",
-                    name: "ID",
-                    message: "What is the manager's ID?",
+                    name: "engineerId",
+                    message: "What is the engineer's ID?",
                 },
     
                 {type: "input",
-                    name: "email",
-                    message: "What is the manager's email address?",
+                    name: "engineerEmail",
+                    message: "What is the engineer's email address?",
                 },
     
                 {type: "input",
-                name: "number",
-                message: "What is the manager's phone number?",
+                name: "engineerGithub",
+                message: "What is the engineer's github account?",
             },
     
     
         ]).then(answers => {
-            const engineer = new Engineer (answers.managerName, answers.managerId, answers.managerEmail, answers.managerOffice);
-            teamMembers.push(manager);
-            idArray.push(answers.managerId);
-            createTeam();
+            const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
+            engineer.title = "Engineer"
+            console.table(engineer);
+            teamMembers.push(engineer);
+            idArray.push(answers.engineerId);
+            generateTeam();
             });
     };
 
 
 
     function buildTeam() {
-        if (!fs.existsSync(DIST_DIR)) {
-            fs.mkdirSync(DIST_DIR)
+        if (!fs.existsSync(OUTPUT_DIR)) {
+            fs.mkdirSync(OUTPUT_DIR)
         }
-        fs.writeFileSync(outputPath, render(teamMember), "Checkout your team!");
+        fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
     }
     generateQuestions();
 };
